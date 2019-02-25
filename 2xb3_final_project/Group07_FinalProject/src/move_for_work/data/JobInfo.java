@@ -1,6 +1,6 @@
 package move_for_work.data;
 
-public class JobInfo {
+public class JobInfo implements Comparable<JobInfo> {
 	
 	//is it necessary for final vars to still be private? 
 	public final Date date;
@@ -29,6 +29,7 @@ public class JobInfo {
 				vacancyRate == -1 && averageWage == -1; 
 	}
 	
+	@Override
 	public int compareTo(JobInfo that)
 	{
 		int cmp = (this.industry.compareTo(that.industry)); 

@@ -47,9 +47,9 @@ public class Tests {
 		DatasetReader.cleanData(jobs);
 		System.out.println("Industries");
 
+		//jobs.sort(null);
 		JobsSort.sortMergeTD(jobs, jobs.size());
-		for (int i = 0; i < jobs.size(); i++)
-			System.out.println(jobs.get(i).industry);
+		//for (int i = 0; i < jobs.size(); i++) System.out.println(jobs.get(i).industry);
 
 		assert JobsSort.isSorted(jobs);
 	}

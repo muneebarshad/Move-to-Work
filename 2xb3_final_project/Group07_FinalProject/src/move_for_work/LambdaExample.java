@@ -19,15 +19,18 @@ public class LambdaExample {
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		
+		//instantiated lambda
 		LambdaBool lambda = job -> job.geography == Province.CANADA;
 		printByCriteria(jobs, 0, 5, lambda);
 		
+		//preferably, use this style for lambda instead of the above
 		printByCriteria(jobs, 0, 10, job -> job.vacancies == -1);
 		
+		//slightly more complex lambda
 		Date jul_2017 = new Date(2017, 7);
 		String industry = "Total, all industries";
 		printByCriteria(jobs, 0, jobs.size(), job ->
-		job.date.compareTo(jul_2017) == 0 && job.industry.equals(industry));
+			job.date.compareTo(jul_2017) == 0 && job.industry.equals(industry));
 	}
 
 }

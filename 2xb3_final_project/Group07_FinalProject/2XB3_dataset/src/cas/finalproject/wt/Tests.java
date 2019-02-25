@@ -1,15 +1,20 @@
 package cas.finalproject.wt;
 
+
+
 import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
+
 public class Tests {
 
 	@Before
 	public void setUp() throws Exception {
+		
 	}
 
 	@After
@@ -36,5 +41,22 @@ public class Tests {
 			}
 		assert allHaveData;
 	}
-
+	
+	@Test
+	public void sortIndustry() throws Exception {
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		System.out.println("Industries");
+//		for (int i = 0; i < jobs.size(); i++) {
+	//		System.out.println(jobs.get(i).industry);
+		//}
+		
+		JobsSort.sortMergeTD(jobs, jobs.size());
+		for (int i = 0; i < jobs.size(); i++) {
+			System.out.println(jobs.get(i).industry);
+		}
+		
+		assert JobsSort.isSorted(jobs);
+	}
+	
 }

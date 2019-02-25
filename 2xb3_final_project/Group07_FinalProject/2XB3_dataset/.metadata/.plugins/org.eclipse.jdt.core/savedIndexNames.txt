@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+D:\Mcmaster\Year II\2XB3\2XB3_dataset\.metadata\.plugins\org.eclipse.jdt.core

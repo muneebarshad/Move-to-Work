@@ -64,8 +64,8 @@ public class DatasetReader {
 		cleanData(jobs);
 		time2 = System.currentTimeMillis() - time2;
 		
-		for (int i = 0; i < 1000; i++) System.out.println(jobs.get(i).industry);
-		System.out.println();
+		//for (int i = 0; i < jobs.size(); i++) System.out.println(jobs.get(i).industry);
+		//System.out.println();
 		for (int i = jobs.size() - 10; i < jobs.size(); i++) System.out.println(jobs.get(i));
 		System.out.println();
 		

@@ -1,5 +1,6 @@
 package cas.finalproject.wt;
 
+
 public class JobInfo {
 	
 	//is it necessary for final vars to still be private? 
@@ -25,6 +26,18 @@ public class JobInfo {
 	public boolean noData() {
 		return vacancies == -1 && employees == -1 &&
 				vacancyRate == -1 && averageWage == -1; 
+	}
+	
+	public int compareTo(JobInfo that)
+	{
+		
+		int cmp = (this.industry.compareTo(that.industry)); 
+		if(cmp != 0)
+			return cmp;
+		
+		return this.geography.compareTo(that.geography);
+		
+	
 	}
 	
 	public String toString() {

@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import move_for_work.algorithms.JobsSort;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
 
@@ -38,6 +39,19 @@ public class Tests {
 				break;
 			}
 		assert allHaveData;
+	}
+	
+	@Test
+	public void sortIndustry() throws Exception {
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		System.out.println("Industries");
+
+		JobsSort.sortMergeTD(jobs, jobs.size());
+		for (int i = 0; i < jobs.size(); i++)
+			System.out.println(jobs.get(i).industry);
+
+		assert JobsSort.isSorted(jobs);
 	}
 
 }

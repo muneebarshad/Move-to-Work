@@ -29,6 +29,14 @@ public class JobInfo {
 				vacancyRate == -1 && averageWage == -1; 
 	}
 	
+	public int compareTo(JobInfo that)
+	{
+		int cmp = (this.industry.compareTo(that.industry)); 
+		if(cmp != 0)
+			return cmp;
+		return this.geography.compareTo(that.geography);
+	}
+	
 	public String toString() {
 		return "{" +
 			date.toString() + ", " +

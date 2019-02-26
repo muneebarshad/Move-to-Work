@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import move_for_work.algorithms.JobsSort;
+import move_for_work.algorithms.unique_jobs;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
 
@@ -50,13 +51,27 @@ public class Tests {
 		
 		System.out.println(jobs.size());
 		
-		
+		/**
+		 * This sorts the jobs by industry names
+		 */
 	    JobsSort.sortBasicQuick(jobs);
-		for (int i = 0; i < jobs.size(); i++) {
-			System.out.println(jobs.get(i).industry);
-		}
+	    
+	    /**
+	     * Print jobs in a sorted order
+	     */
+		/*for (int i = 0; i < jobs.size(); i++) {
+			System.out.println(jobs.get(i));
+		}*/
+		
+	    /**
+	     * Print the unique names of all the industries.
+	     */
+		unique_jobs.TypesOfIndustry(jobs);
+		
 
 		assert (JobsSort.isSorted(jobs));
 	}
+	
+	
 
 }

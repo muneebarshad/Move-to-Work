@@ -47,11 +47,16 @@ public class Tests {
 		DatasetReader.cleanData(jobs);
 		System.out.println("Industries");
 
-		//jobs.sort(null);
-		JobsSort.sortMergeTD(jobs, jobs.size());
-		//for (int i = 0; i < jobs.size(); i++) System.out.println(jobs.get(i).industry);
+		
+		System.out.println(jobs.size());
+		
+		
+	    JobsSort.sortBasicQuick(jobs);
+		for (int i = 0; i < jobs.size(); i++) {
+			System.out.println(jobs.get(i).industry);
+		}
 
-		assert JobsSort.isSorted(jobs);
+		assert (JobsSort.isSorted(jobs));
 	}
 
 }

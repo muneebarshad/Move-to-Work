@@ -32,7 +32,8 @@ public class JobInfo implements Comparable<JobInfo> {
 	@Override
 	public int compareTo(JobInfo that)
 	{
-		int cmp = (this.industry.compareTo(that.industry)); 
+		
+	int cmp = (this.industry.compareTo(that.industry)); 
 		if(cmp != 0)
 			return cmp;
 		return this.geography.compareTo(that.geography);

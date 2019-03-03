@@ -10,26 +10,20 @@ import move_for_work.data.JobInfo;
  */
 public class unique_jobs {
 	
-	public static void TypesOfIndustry( ArrayList <JobInfo> x) {
+	public static ArrayList<String> TypesOfIndustry(ArrayList <JobInfo> x) {
 		ArrayList<String> Industry = new ArrayList<String>();
 		Industry.add(x.get(0).industry);
-		int j = 0;
-		
-		for (int i = 1; i< x.size(); i++) {
+		int j = 0;		
+		for (int i = 1; i < x.size(); i++) {
 			if (Industry.get(j).equals(x.get(i).industry)) {
 				i++;
 			}
-			
 			else {
 				Industry.add(x.get(i).industry);
 				j++;
 			}
 		}
-		
-		for (int k = 0 ; k < Industry.size(); k++) {
-			System.out.println(Industry.get(k));
-		}
-
+		return Industry;
 	}
 			
 }

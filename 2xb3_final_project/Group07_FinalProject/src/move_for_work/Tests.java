@@ -46,28 +46,16 @@ public class Tests {
 	public void sortIndustry() throws Exception {
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
-		System.out.println("Industries");
-
+		//System.out.println("Industries");		
+		//System.out.println(jobs.size());
 		
-		System.out.println(jobs.size());
-		
-		/**
-		 * This sorts the jobs by industry names
-		 */
 	    JobsSort.sortBasicQuick(jobs);
-	    
-	    /**
-	     * Print jobs in a sorted order
-	     */
-		/*for (int i = 0; i < jobs.size(); i++) {
-			System.out.println(jobs.get(i));
-		}*/
+		/*for (int i = 0; i < jobs.size(); i++)
+			System.out.println(jobs.get(i));*/
 		
-	    /**
-	     * Print the unique names of all the industries.
-	     */
-		unique_jobs.TypesOfIndustry(jobs);
-		
+		ArrayList<String> jobNames = unique_jobs.TypesOfIndustry(jobs);
+		/*for (int k = 0 ; k < jobNames.size(); k++)
+			System.out.println(jobNames.get(k));*/
 
 		assert (JobsSort.isSorted(jobs));
 	}

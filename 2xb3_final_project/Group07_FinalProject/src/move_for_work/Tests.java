@@ -43,7 +43,7 @@ public class Tests {
 	}
 	
 	@Test
-	public void sortIndustry() throws Exception {
+	public void testSortIndustry() throws Exception {
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		//System.out.println("Industries");		
@@ -60,6 +60,29 @@ public class Tests {
 		assert (JobsSort.isSorted(jobs));
 	}
 	
-	
+	@Test
+	public void testUniqueNames() throws Exception {
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		JobsSort.sortBasicQuick(jobs);
+		ArrayList<String> jobNames = unique_jobs.TypesOfIndustry(jobs);
+		
+		ArrayList<String> uniqueNames = new ArrayList<String>();
+		int n = jobNames.size();
+		boolean namesAreUnique = true;
+		for (int i = 0; i < n; i++) {
+			if (uniqueNames.contains(jobNames.get(i))) {
+				System.out.print("uh oh");
+				namesAreUnique = false;
+				break;
+			}
+			else {
+				uniqueNames.add(jobNames.get(i));
+			}
+		}
+		System.out.print("jobNames " + jobNames.size()
+			+ ", uniqueNames " + uniqueNames.size());
+		assert namesAreUnique;
+	}
 
 }

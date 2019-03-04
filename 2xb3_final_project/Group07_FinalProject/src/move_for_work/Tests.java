@@ -90,27 +90,27 @@ public class Tests {
 	@Test
 	public void testFilterIndustry() throws Exception {
 		String industry = 
-				//"Aboriginal public administration";
+				"Aboriginal public administration";
 				//"Crop production";
-				"Wood product manufacturing";
+				//"Wood product manufacturing";
 		
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size() - 1,
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size() - 1,
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
 		
 		//running checks and display
 		boolean leftOK = (left == 0)
 				? true : jobs.get(left - 1).compareTo(jobs.get(left)) < 0;		
-		boolean rightOK = (right == jobs.size() - 1)
-				? true : jobs.get(right).compareTo(jobs.get(right + 1)) < 0;
+		boolean rightOK = (right == jobs.size())
+				? true : jobs.get(right - 1).compareTo(jobs.get(right)) < 0;
 		boolean middleOK = true;
 		System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
-		for (int i = left + 1; i <= right; i++) {
+		for (int i = left + 1; i < right; i++) {
 			if (jobs.get(i - 1).industry.compareTo(jobs.get(i).industry) != 0) {
 				middleOK = false;
 				break;
@@ -123,19 +123,19 @@ public class Tests {
 	@Test
 	public void testFilterIndustryProvince() throws Exception {
 		String industry = 
-				//"Aboriginal public administration";
+				"Aboriginal public administration";
 				//"Crop production";
-				"Wood product manufacturing";
+				//"Wood product manufacturing";
 		Province province =
-				Province.SASKATCHEWAN;
+				Province.ALBERTA;
 		
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size() - 1,
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size() - 1,
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
 		
 		left = JobFilter.getLeftIndex(jobs, left, right,
@@ -146,11 +146,11 @@ public class Tests {
 		//running checks and display
 		boolean leftOK = (left == 0)
 				? true : jobs.get(left - 1).compareTo(jobs.get(left)) < 0;		
-		boolean rightOK = (right == jobs.size() - 1)
-				? true : jobs.get(right).compareTo(jobs.get(right + 1)) < 0;
+		boolean rightOK = (right == jobs.size())
+				? true : jobs.get(right - 1).compareTo(jobs.get(right)) < 0;
 		boolean middleOK = true;
 		System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
-		for (int i = left + 1; i <= right; i++) {
+		for (int i = left + 1; i < right; i++) {
 			if (jobs.get(i - 1).compareTo(jobs.get(i)) != 0) {
 				middleOK = false;
 				break;

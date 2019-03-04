@@ -6,10 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import move_for_work.algorithms.JobFilter;
 import move_for_work.algorithms.JobsSort;
 import move_for_work.algorithms.unique_jobs;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
+import move_for_work.data.Province;
 
 public class Tests {
 
@@ -83,6 +85,79 @@ public class Tests {
 		System.out.print("jobNames " + jobNames.size()
 			+ ", uniqueNames " + uniqueNames.size());
 		assert namesAreUnique;
+	}
+	
+	@Test
+	public void testFilterIndustry() throws Exception {
+		String industry = 
+				//"Aboriginal public administration";
+				//"Crop production";
+				"Wood product manufacturing";
+		
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		JobsSort.sortBasicQuick(jobs);
+		
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size() - 1,
+				j -> j.industry.compareTo(industry));
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size() - 1,
+				j -> j.industry.compareTo(industry));
+		
+		//running checks and display
+		boolean leftOK = (left == 0)
+				? true : jobs.get(left - 1).compareTo(jobs.get(left)) < 0;		
+		boolean rightOK = (right == jobs.size() - 1)
+				? true : jobs.get(right).compareTo(jobs.get(right + 1)) < 0;
+		boolean middleOK = true;
+		System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
+		for (int i = left + 1; i <= right; i++) {
+			if (jobs.get(i - 1).industry.compareTo(jobs.get(i).industry) != 0) {
+				middleOK = false;
+				break;
+			}
+			System.out.println(i + " " + jobs.get(i).industry + " " + jobs.get(i).geography);
+		}
+		assert leftOK && middleOK && rightOK;
+	}
+	
+	@Test
+	public void testFilterIndustryProvince() throws Exception {
+		String industry = 
+				//"Aboriginal public administration";
+				//"Crop production";
+				"Wood product manufacturing";
+		Province province =
+				Province.SASKATCHEWAN;
+		
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		JobsSort.sortBasicQuick(jobs);
+		
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size() - 1,
+				j -> j.industry.compareTo(industry));
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size() - 1,
+				j -> j.industry.compareTo(industry));
+		
+		left = JobFilter.getLeftIndex(jobs, left, right,
+				j -> j.geography.compareTo(province));
+		right = JobFilter.getRightIndex(jobs, left, right,
+				j -> j.geography.compareTo(province));
+		
+		//running checks and display
+		boolean leftOK = (left == 0)
+				? true : jobs.get(left - 1).compareTo(jobs.get(left)) < 0;		
+		boolean rightOK = (right == jobs.size() - 1)
+				? true : jobs.get(right).compareTo(jobs.get(right + 1)) < 0;
+		boolean middleOK = true;
+		System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
+		for (int i = left + 1; i <= right; i++) {
+			if (jobs.get(i - 1).compareTo(jobs.get(i)) != 0) {
+				middleOK = false;
+				break;
+			}
+			System.out.println(i + " " + jobs.get(i).industry + " " + jobs.get(i).geography);
+		}
+		assert leftOK && middleOK && rightOK;
 	}
 
 }

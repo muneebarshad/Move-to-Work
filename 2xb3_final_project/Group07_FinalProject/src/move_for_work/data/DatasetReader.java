@@ -1,6 +1,7 @@
 package move_for_work.data;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -37,16 +38,21 @@ public class DatasetReader {
 				));
 	}
 	
-	public static ArrayList<JobInfo> readData(String filename) throws Exception {
+	public static ArrayList<JobInfo> readData(String filename) {
 		ArrayList<JobInfo> jobs = new ArrayList<JobInfo>();
-		Scanner input = new Scanner(new File(filename));
-		input.nextLine(); //skip the headers
-		coordinate2 = "";
-		while (input.hasNextLine())
-			addJob(jobs, input);
-		input.close();
-		data = null;
-		return jobs;
+		Scanner input;
+		try {
+			input = new Scanner(new File(filename));
+			input.nextLine(); //skip the headers
+			coordinate2 = "";
+			while (input.hasNextLine())
+				addJob(jobs, input);
+			input.close();
+			data = null;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return jobs;			
 	}
 	
 	public static void cleanData(ArrayList<JobInfo> jobs) {

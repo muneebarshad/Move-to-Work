@@ -3,6 +3,7 @@ package move_for_work.algorithms;
 import java.util.ArrayList;
 
 import move_for_work.data.JobInfo;
+import move_for_work.data.Province;
 
 //-1 checks are necessary since -1 is used as dummy
 public class JobsAnalysis {
@@ -32,5 +33,16 @@ public class JobsAnalysis {
 		if (total > 0)
 			wage /= total;
 		return wage;
+	}
+	
+	public static ArrayList<Province> Provinces(ArrayList<JobInfo> jobs, int lo, int hi) {
+		ArrayList<Province> provinces = new ArrayList<Province>();
+		for (int i = lo; i < hi; i++) {
+			Province p = jobs.get(i).geography;
+			if (provinces.contains(p))
+				continue;
+			provinces.add(p);
+		}
+		return provinces;
 	}
 }

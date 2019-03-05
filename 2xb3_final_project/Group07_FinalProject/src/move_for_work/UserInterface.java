@@ -21,23 +21,40 @@ public class UserInterface {
 			int n = jobNames.size();
 			for (int i = 0; i < n; i++)
 				System.out.println((i + 1) + ": " + jobNames.get(i));
-			System.out.print("\nPlease select your desired industry by number (-1 to exit): ");
-			int industry = input.nextInt();
-			if (industry == -1 )
-				break;
+			System.out.print("\nPlease select your desired industry by number: ");
+			int num = input.nextInt();
 			System.out.println();
-			industry++;
-			
-			//print provinces, get choice
-			for (Province prov : Province.values())
-				System.out.println(prov);
-			System.out.print("Please choose your desired region: ");
-			String region = input.next();
-			Province province = Province.valueOf(region);
 			
 			//get sublist of jobs in industry, sorted by province
-			//get relevant province data and print
+			String industry = jobNames.get(num - 1);
+			int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
+					j -> j.industry.compareTo(industry));
+			int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
+					j -> j.industry.compareTo(industry));
 			
+			//print provinces, get choice
+			ArrayList<Province> provinces = JobsAnalysis.Provinces(jobs, left, right);
+			for (int i = 0; i < provinces.size(); i++)
+				System.out.println((i + 1) + ": " + provinces.get(i));
+			System.out.print("Please choose your desired region by number: ");
+			num = input.nextInt();
+			System.out.println();
+			Province province = provinces.get(num - 1);
+			
+			//get relevant province data
+			left = JobFilter.getLeftIndex(jobs, left, right,
+					j -> j.geography.compareTo(province));
+			right = JobFilter.getRightIndex(jobs, left, right,
+					j -> j.geography.compareTo(province));
+			int vacancies = JobsAnalysis.SumJobVacancies(jobs, left, right);
+			float wage = JobsAnalysis.AverageWage(jobs, left, right);
+			System.out.println(industry + ", " + province);
+			System.out.println("Sum of vacancies: " + vacancies);
+			System.out.println("Average wage: " + wage);
+			System.out.print("Continue (Y/N)? ");
+			String in = input.next();
+			if (in.equals("N") || in.equals("n"))
+				break;
 		}
 		
 		input.close();

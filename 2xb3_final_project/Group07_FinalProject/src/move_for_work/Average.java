@@ -20,13 +20,16 @@ public class Average {
 			int left1 = JobFilter.getLeftIndex(jobs, lo, hi, j -> j.geography.compareTo(province));
 			int right1 = JobFilter.getRightIndex(jobs, lo, hi, j -> j.geography.compareTo(province));
 			float Average = JobsAnalysis.AverageWage(jobs, left1, right1);
+			if (Average == -1) {
+				break;
+			}
 			List.add(new TwoTuple(province, Average));
 		}
 		return List;
 	}
 	
 
-
+	
 	public static void main(String[] args) throws Exception {
 		String industry = 
 				"Aboriginal public administration";
@@ -38,16 +41,11 @@ public class Average {
 				j -> j.industry.compareTo(industry));
 		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
-		/*
-		left = JobFilter.getLeftIndex(jobs, left, right,
-				j -> j.geography.compareTo(province));
-		right = JobFilter.getRightIndex(jobs, left, right,
-				j -> j.geography.compareTo(province));
-				*/
+
 		ArrayList<TwoTuple> list = Average(jobs, left, right);
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).first + " " + list.get(i).second);
 		}
-
 	}
+	
 }

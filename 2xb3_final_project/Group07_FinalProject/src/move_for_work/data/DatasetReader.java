@@ -42,7 +42,7 @@ public class DatasetReader {
 		ArrayList<JobInfo> jobs = new ArrayList<JobInfo>();
 		Scanner input;
 		try {
-			input = new Scanner(new File(filename));
+			input = new Scanner(new File(filename), "UTF-8");
 			input.nextLine(); //skip the headers
 			coordinate2 = "";
 			while (input.hasNextLine())

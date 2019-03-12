@@ -10,15 +10,12 @@ import move_for_work.data.TwoTuple;
 
 public class Graph {
 
-    public static void Graph(String industry) {
+    public static void GraphWage(String industry) {
 
     	StdDraw.setCanvasSize(1024, 512);
     	StdDraw.setXscale(0, 150);
     	StdDraw.setYscale(0, 50);
-    	/*
-		String industry = 
-				"Local, municipal and regional public administration";
-				*/
+
 				ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
@@ -27,7 +24,7 @@ public class Graph {
 				j -> j.industry.compareTo(industry));
 		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
-		ArrayList<TwoTuple> list = Average.Average(jobs, left, right);
+		ArrayList<TwoTuple> list = Average.AverageList(jobs, left, right);
 		
 
     	StdDraw.setPenColor(StdDraw.BLUE);
@@ -41,7 +38,7 @@ public class Graph {
 
         }
     public static void main(String[] args) {
-    	Graph("Local, municipal and regional public administration");
+    	GraphWage("Crop production");
     }
 }
 

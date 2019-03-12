@@ -13,6 +13,7 @@ import move_for_work.algorithms.unique_jobs;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
 import move_for_work.data.Province;
+import move_for_work.data.TwoTuple;
 
 public class Tests {
 
@@ -219,6 +220,51 @@ public class Tests {
 		float test = JobsAnalysis.AverageWage(jobs, left, right);
 		System.out.println(wage + " " + test);
 		assert wage == test;
+	}
+	
+	@Test
+	public void testAverageList() {
+		String industry = 
+				"Crop production";
+				ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		JobsSort.sortBasicQuick(jobs);
+		
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
+				j -> j.industry.compareTo(industry));
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
+				j -> j.industry.compareTo(industry));
+
+		ArrayList<TwoTuple> list = Average.AverageList(jobs, left, right);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i).first + " " + list.get(i).second);
+		}
+		
+		Province province = Province.ALBERTA;
+		left = JobFilter.getLeftIndex(jobs, left, right, j -> j.geography.compareTo(province));
+		right = JobFilter.getRightIndex(jobs, left, right, j -> j.geography.compareTo(province));
+		float wage = 0;
+		int count = 0;
+		int n = jobs.size();
+		for (int i = 0; i < n; i++) {
+			JobInfo j = jobs.get(i);
+			if (j.industry.equals(industry)
+					&& j.geography.equals(province)
+					&& j.averageWage >= 0) {
+				wage += j.averageWage;
+				count++;
+			}
+			
+		}
+		if (count > 0)
+			wage /= count;
+		float test = list.get(0).second;
+		assert wage == test;
+	}
+	
+	@Test
+	public void testGraphWage() {
+		Graph.GraphWage("Aboriginal public administration");
 	}
 
 }

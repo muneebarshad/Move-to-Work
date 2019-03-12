@@ -12,7 +12,7 @@ import move_for_work.data.TwoTuple;
 
 public class Average {
     
-	public static ArrayList<TwoTuple> Average(ArrayList<JobInfo> jobs, int lo, int hi){
+	public static ArrayList<TwoTuple> AverageList(ArrayList<JobInfo> jobs, int lo, int hi){
 		ArrayList<TwoTuple> List = new ArrayList<TwoTuple>();
 		
 		for (int i = 0; i < Province.values().length; i++) {
@@ -32,7 +32,7 @@ public class Average {
 	
 	public static void main(String[] args) throws Exception {
 		String industry = 
-				"Aboriginal public administration";
+				"Crop production";
 				ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
@@ -42,7 +42,7 @@ public class Average {
 		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
 				j -> j.industry.compareTo(industry));
 
-		ArrayList<TwoTuple> list = Average(jobs, left, right);
+		ArrayList<TwoTuple> list = AverageList(jobs, left, right);
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).first + " " + list.get(i).second);
 		}

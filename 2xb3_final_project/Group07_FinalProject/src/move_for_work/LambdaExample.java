@@ -19,11 +19,11 @@ public class LambdaExample {
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		
-		//instantiated lambda
+		//instantiated lambda; use this when reusing a lambda
 		LambdaBool lambda = job -> job.geography == Province.CANADA;
 		printByCriteria(jobs, 0, 5, lambda);
 		
-		//preferably, use this style for lambda instead of the above
+		//preferably, use this style for lambda when only needed once
 		printByCriteria(jobs, 0, 10, job -> job.vacancies == -1);
 		
 		//slightly more complex lambda

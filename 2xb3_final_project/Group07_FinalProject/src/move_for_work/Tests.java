@@ -1,5 +1,6 @@
 package move_for_work;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -12,6 +13,7 @@ import move_for_work.algorithms.JobsSort;
 import move_for_work.algorithms.unique_jobs;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
+import move_for_work.data.LambdaInt;
 import move_for_work.data.Province;
 import move_for_work.data.TwoTuple;
 
@@ -224,9 +226,9 @@ public class Tests {
 	
 	@Test
 	public void testAverageList() {
-		String industry = 
-				"Crop production";
-				ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		String industry = "Crop production";
+		
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
@@ -263,8 +265,19 @@ public class Tests {
 	}
 	
 	@Test
-	public void testGraphWage() {
-		Graph.GraphWage("Aboriginal public administration");
+	public void testGraphWage() throws Exception {
+		String industry = "Crop production";
+		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
+		DatasetReader.cleanData(jobs);
+		JobsSort.sortBasicQuick(jobs);
+		
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);
+		
+		Graph.GraphWage(jobs, left, right);
+		System.out.print("Input anything to exit... ");
+		System.in.read();
 	}
 
 }

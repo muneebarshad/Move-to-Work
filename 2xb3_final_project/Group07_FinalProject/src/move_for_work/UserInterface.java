@@ -27,37 +27,42 @@ public class UserInterface {
 			
 			//get sublist of jobs in industry, sorted by province
 			String industry = jobNames.get(num - 1);
-			int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
-					j -> j.industry.compareTo(industry));
-			int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
-					j -> j.industry.compareTo(industry));
+			LambdaInt industryFilter = j -> j.industry.compareTo(industry);
+			int industryL = JobFilter.getLeftIndex(jobs, 0, jobs.size(), industryFilter);
+			int industryR = JobFilter.getRightIndex(jobs, 0, jobs.size(), industryFilter);
+			
+			//display graph
+			Graph.GraphWage(jobs, industryL, industryR);
 			
 			//print provinces, get choice
-			ArrayList<Province> provinces = JobsAnalysis.Provinces(jobs, left, right);
+			ArrayList<Province> provinces = JobsAnalysis.Provinces(jobs, industryL, industryR);
 			for (int i = 0; i < provinces.size(); i++)
 				System.out.println((i + 1) + ": " + provinces.get(i));
-			System.out.print("Please choose your desired region by number: ");
+			System.out.print("Industry data displayed. Please choose your desired region by number: ");
 			num = input.nextInt();
 			System.out.println();
 			Province province = provinces.get(num - 1);
 			
 			//get relevant province data
-			left = JobFilter.getLeftIndex(jobs, left, right,
-					j -> j.geography.compareTo(province));
-			right = JobFilter.getRightIndex(jobs, left, right,
-					j -> j.geography.compareTo(province));
-			int vacancies = JobsAnalysis.SumJobVacancies(jobs, left, right);
-			float wage = JobsAnalysis.AverageWage(jobs, left, right);
+			LambdaInt provinceFilter = j -> j.geography.compareTo(province);
+			int provinceL = JobFilter.getLeftIndex(jobs, industryL, industryR, provinceFilter);
+			int provinceR = JobFilter.getRightIndex(jobs, industryL, industryR, provinceFilter);
+			int vacancies = JobsAnalysis.SumJobVacancies(jobs, provinceL, provinceR);
+			float wage = JobsAnalysis.AverageWage(jobs, provinceL, provinceR);
 			System.out.println(industry + ", " + province);
 			System.out.println("Sum of vacancies: " + vacancies);
 			System.out.println("Average wage: " + wage);
 			System.out.print("Continue (Y/N)? ");
 			String in = input.next();
+			StdDraw.clear();
 			if (in.equals("N") || in.equals("n"))
 				break;
 		}
 		
 		input.close();
+		System.exit(0);
+		//PROGRAM IS NOT PROPERLY EXITING ON ITS OWN WITH GRAPH/STDDRAW PRESENT.
+		//FIX THIS.
 	}
 
 }

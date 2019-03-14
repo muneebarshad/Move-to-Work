@@ -55,11 +55,19 @@ public class Tests {
 		//System.out.println("Industries");		
 		//System.out.println(jobs.size());
 		
+		//relevant section w/ time tests
+		long time = System.currentTimeMillis();
 	    JobsSort.sortBasicQuick(jobs);
+	    time = System.currentTimeMillis() - time;
+	    System.out.println(time + "ms to sort data");
 		/*for (int i = 0; i < jobs.size(); i++)
 			System.out.println(jobs.get(i));*/
 		
+	    //relevant section w/ time tests
+	    time = System.currentTimeMillis();
 		ArrayList<String> jobNames = unique_jobs.TypesOfIndustry(jobs);
+		time = System.currentTimeMillis() - time;
+	    System.out.println(time + "ms to get job names");
 		/*for (int k = 0 ; k < jobNames.size(); k++)
 			System.out.println(jobNames.get(k));*/
 
@@ -71,8 +79,11 @@ public class Tests {
 		ArrayList<JobInfo> jobs = DatasetReader.readData("14100326.csv");
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
+		
+		//relevant section
 		ArrayList<String> jobNames = unique_jobs.TypesOfIndustry(jobs);
 		
+		//confirmation of correctness
 		ArrayList<String> uniqueNames = new ArrayList<String>();
 		int n = jobNames.size();
 		boolean namesAreUnique = true;
@@ -102,10 +113,13 @@ public class Tests {
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
+		//relevant section w/ time tests
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		long time = System.currentTimeMillis();
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);
+		time = System.currentTimeMillis() - time;
+		System.out.println(time + "ms to get range");
 		
 		//running checks and display
 		boolean leftOK = (left == 0)
@@ -113,13 +127,13 @@ public class Tests {
 		boolean rightOK = (right == jobs.size())
 				? true : jobs.get(right - 1).compareTo(jobs.get(right)) < 0;
 		boolean middleOK = true;
-		System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
+		//System.out.println(left + " " + jobs.get(left).industry + " " + jobs.get(left).geography);
 		for (int i = left + 1; i < right; i++) {
 			if (jobs.get(i - 1).industry.compareTo(jobs.get(i).industry) != 0) {
 				middleOK = false;
 				break;
 			}
-			System.out.println(i + " " + jobs.get(i).industry + " " + jobs.get(i).geography);
+			//System.out.println(i + " " + jobs.get(i).industry + " " + jobs.get(i).geography);
 		}
 		assert leftOK && middleOK && rightOK;
 	}
@@ -137,15 +151,13 @@ public class Tests {
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
-		
-		left = JobFilter.getLeftIndex(jobs, left, right,
-				j -> j.geography.compareTo(province));
-		right = JobFilter.getRightIndex(jobs, left, right,
-				j -> j.geography.compareTo(province));
+		//relevant section
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);		
+		LambdaInt filterProv = j -> j.geography.compareTo(province);
+		left = JobFilter.getLeftIndex(jobs, left, right, filterProv);
+		right = JobFilter.getRightIndex(jobs, left, right, filterProv);
 		
 		//running checks and display
 		boolean leftOK = (left == 0)
@@ -172,12 +184,15 @@ public class Tests {
 		
 		//narrowing down scope
 		String industry = "Crop production";
-		Province province = Province.ALBERTA;		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), j -> j.industry.compareTo(industry));		
-		left = JobFilter.getLeftIndex(jobs, left, right, j -> j.geography.compareTo(province));
-		right = JobFilter.getRightIndex(jobs, left, right, j -> j.geography.compareTo(province));
+		Province province = Province.ALBERTA;
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);		
+		LambdaInt filterProv = j -> j.geography.compareTo(province);
+		left = JobFilter.getLeftIndex(jobs, left, right, filterProv);
+		right = JobFilter.getRightIndex(jobs, left, right, filterProv);
 		
+		//calculating expected result
 		int vacancies = 0;
 		int n = jobs.size();
 		for (int i = 0; i < n; i++) {
@@ -187,6 +202,8 @@ public class Tests {
 					&& j.vacancies > 0)
 				vacancies += j.vacancies;
 		}
+		
+		//relevant section
 		int test = JobsAnalysis.SumJobVacancies(jobs, left, right);
 		System.out.println(vacancies + " " + test);
 		assert vacancies == test;
@@ -199,12 +216,15 @@ public class Tests {
 		JobsSort.sortBasicQuick(jobs);
 		//narrowing down scope
 		String industry = "Crop production";
-		Province province = Province.ALBERTA;		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), j -> j.industry.compareTo(industry));		
-		left = JobFilter.getLeftIndex(jobs, left, right, j -> j.geography.compareTo(province));
-		right = JobFilter.getRightIndex(jobs, left, right, j -> j.geography.compareTo(province));
+		Province province = Province.ALBERTA;
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);		
+		LambdaInt filterProv = j -> j.geography.compareTo(province);
+		left = JobFilter.getLeftIndex(jobs, left, right, filterProv);
+		right = JobFilter.getRightIndex(jobs, left, right, filterProv);
 		
+		//calculating expected result
 		float wage = 0;
 		int count = 0;
 		int n = jobs.size();
@@ -219,6 +239,8 @@ public class Tests {
 		}
 		if (count > 0)
 			wage /= count;
+		
+		//relevant section
 		float test = JobsAnalysis.AverageWage(jobs, left, right);
 		System.out.println(wage + " " + test);
 		assert wage == test;
@@ -232,19 +254,21 @@ public class Tests {
 		DatasetReader.cleanData(jobs);
 		JobsSort.sortBasicQuick(jobs);
 		
-		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
-		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(),
-				j -> j.industry.compareTo(industry));
+		LambdaInt filter = j -> j.industry.compareTo(industry);
+		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
+		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);
 
+		//relevant section
 		ArrayList<TwoTuple> list = Average.AverageList(jobs, left, right);
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i).first + " " + list.get(i).second);
-		}
 		
+		for (int i = 0; i < list.size(); i++)
+			System.out.println(list.get(i).first + " " + list.get(i).second);
+				
+		//calculating expected result
 		Province province = Province.ALBERTA;
-		left = JobFilter.getLeftIndex(jobs, left, right, j -> j.geography.compareTo(province));
-		right = JobFilter.getRightIndex(jobs, left, right, j -> j.geography.compareTo(province));
+		LambdaInt filterProv = j -> j.geography.compareTo(province);
+		left = JobFilter.getLeftIndex(jobs, left, right, filterProv);
+		right = JobFilter.getRightIndex(jobs, left, right, filterProv);
 		float wage = 0;
 		int count = 0;
 		int n = jobs.size();
@@ -275,6 +299,7 @@ public class Tests {
 		int left = JobFilter.getLeftIndex(jobs, 0, jobs.size(), filter);
 		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);
 		
+		//relevant section
 		Graph.GraphWage(jobs, left, right);
 		System.out.print("Input anything to exit... ");
 		System.in.read();

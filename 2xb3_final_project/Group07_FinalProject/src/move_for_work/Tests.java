@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import move_for_work.algorithms.Average;
+import move_for_work.algorithms.Graph;
 import move_for_work.algorithms.JobFilter;
 import move_for_work.algorithms.JobsAnalysis;
 import move_for_work.algorithms.JobsSort;

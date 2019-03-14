@@ -1,9 +1,8 @@
-package move_for_work;
+package move_for_work.algorithms;
 
 import java.util.ArrayList;
 
-import move_for_work.algorithms.JobFilter;
-import move_for_work.algorithms.JobsSort;
+import move_for_work.StdDraw;
 import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
 import move_for_work.data.TwoTuple;

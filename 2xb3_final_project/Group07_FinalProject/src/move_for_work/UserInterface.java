@@ -32,7 +32,7 @@ public class UserInterface {
 			int industryR = JobFilter.getRightIndex(jobs, 0, jobs.size(), industryFilter);
 			
 			//display graph
-			Graph.GraphWage(jobs, industryL, industryR);
+			GraphAlgorithm.GraphWage(jobs, industryL, industryR);
 			
 			//print provinces, get choice
 			ArrayList<Province> provinces = JobsAnalysis.Provinces(jobs, industryL, industryR);

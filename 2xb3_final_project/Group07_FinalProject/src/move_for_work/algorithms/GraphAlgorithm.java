@@ -7,7 +7,7 @@ import move_for_work.data.DatasetReader;
 import move_for_work.data.JobInfo;
 import move_for_work.data.TwoTuple;
 
-public class Graph {
+public class GraphAlgorithm {
 
     public static void GraphWage(ArrayList<JobInfo> jobs, int lo, int hi) {
     	StdDraw.setCanvasSize(1024, 512);

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import move_for_work.algorithms.Average;
-import move_for_work.algorithms.Graph;
+import move_for_work.algorithms.GraphAlgorithm;
 import move_for_work.algorithms.JobFilter;
 import move_for_work.algorithms.JobsAnalysis;
 import move_for_work.algorithms.JobsSort;
@@ -302,7 +302,7 @@ public class Tests {
 		int right = JobFilter.getRightIndex(jobs, 0, jobs.size(), filter);
 		
 		//relevant section
-		Graph.GraphWage(jobs, left, right);
+		GraphAlgorithm.GraphWage(jobs, left, right);
 		System.out.print("Input anything to exit... ");
 		System.in.read();
 	}

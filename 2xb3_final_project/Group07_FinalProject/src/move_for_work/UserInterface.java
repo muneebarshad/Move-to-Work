@@ -16,6 +16,17 @@ public class UserInterface {
 		
 		Scanner input = new Scanner(System.in);
 		
+		ArrayList<Province> provinceList = new ArrayList<Province>();
+		for (Province p : Province.values())
+			if (p != Province.CANADA && p != Province.ERROR)
+				provinceList.add(p);
+		for (int i = 0; i < provinceList.size(); i++)
+			System.out.println((i + 1) + ": " + provinceList.get(i));
+		System.out.print("Hello. Please enter your province by number: ");
+		int in = input.nextInt();
+		System.out.println();
+		Province userProvince = provinceList.get(in - 1);
+		
 		while (true) {
 			//print industry list, get choice
 			int n = jobNames.size();
@@ -35,13 +46,15 @@ public class UserInterface {
 			GraphAlgorithm.GraphWage(jobs, industryL, industryR);
 			
 			//print provinces, get choice
-			ArrayList<Province> provinces = JobsAnalysis.Provinces(jobs, industryL, industryR);
-			for (int i = 0; i < provinces.size(); i++)
-				System.out.println((i + 1) + ": " + provinces.get(i));
-			System.out.print("Industry data displayed. Please choose your desired region by number: ");
+			ProvinceSearch pSearch = new ProvinceSearch();
+			Province[] myOrder = pSearch.getOrder(userProvince);
+			for (int i = 0; i < myOrder.length; i++)
+				System.out.println((i + 1) + ": " + myOrder[i]);
+			
+			System.out.print("Industry average wages displayed. Please choose your desired region by number: ");
 			num = input.nextInt();
 			System.out.println();
-			Province province = provinces.get(num - 1);
+			Province province = myOrder[num - 1];
 			
 			//get relevant province data
 			LambdaInt provinceFilter = j -> j.geography.compareTo(province);
@@ -53,16 +66,14 @@ public class UserInterface {
 			System.out.println("Sum of vacancies: " + vacancies);
 			System.out.println("Average wage: " + wage);
 			System.out.print("Continue (Y/N)? ");
-			String in = input.next();
+			String inString = input.next();
 			StdDraw.clear();
-			if (in.equals("N") || in.equals("n"))
+			if (inString.equals("N") || inString.equals("n"))
 				break;
 		}
 		
 		input.close();
 		System.exit(0);
-		//PROGRAM IS NOT PROPERLY EXITING ON ITS OWN WITH GRAPH/STDDRAW PRESENT.
-		//FIX THIS.
 	}
 
 }

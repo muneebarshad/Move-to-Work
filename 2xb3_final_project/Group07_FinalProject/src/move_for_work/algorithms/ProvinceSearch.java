@@ -89,6 +89,7 @@ public class ProvinceSearch {
 					queue.add(w);
 				}
 		}
+		order.add(Province.CANADA);
 		Province[] x = order.toArray(new Province[order.size()]);
 		return x;
 	}
